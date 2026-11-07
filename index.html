@@ -11,9 +11,9 @@
             --accent: #E85D04; 
             --accent-hover: #CC5203; 
             --bg: #F4F7F9; 
-            --text: #333; 
+            --text: #222; 
             --muted: #6B7280; 
-            --border: #D1D5DB; 
+            --border: #000000; 
             --locked: #F3F4F6; 
         }
         * { box-sizing: border-box; }
@@ -30,9 +30,10 @@
             margin: 0 auto; 
             background: #fff; 
             padding: 38px 42px 42px; 
-            border-radius: 10px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border);
             border-top: 5px solid var(--navy); 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            box-shadow: none;
         }
         .app-header { 
             text-align: center; 
@@ -46,7 +47,7 @@
             letter-spacing: -0.02em; 
         }
         .app-header .product-title { 
-            color: #1f2937; 
+            color: #111827; 
             font-size: 16.5px; 
             font-weight: 700; 
             margin: 0; 
@@ -59,7 +60,7 @@
             font-weight: 700; 
             margin: 0 0 18px; 
             padding-bottom: 8px; 
-            border-bottom: 2px solid var(--border); 
+            border-bottom: 1.5px solid #000; 
             position: relative; 
         }
         .form-row { display: flex; gap: 20px; flex-wrap: wrap; }
@@ -77,34 +78,37 @@
             width: 100%; 
             padding: 11px 14px; 
             border: 1px solid var(--border); 
-            border-radius: 7px; 
+            border-radius: 6px; 
             font-size: 14.5px; 
             color: var(--text); 
             font-family: 'Inter', sans-serif; 
             background: #fff; 
-            transition: all .2s; 
+            box-shadow: none !important;
+            transition: border-color .2s; 
         }
         input[type=file] { 
             width: 100%; 
             padding: 9px; 
             border: 1px dashed var(--border); 
-            border-radius: 7px; 
+            border-radius: 6px; 
             font-size: 14px; 
             color: var(--muted); 
             background: #FAFAFA; 
             cursor: pointer; 
+            box-shadow: none !important;
         }
-        input[type=file]:hover { border-color: #9CA3AF; }
+        input[type=file]:hover { border-color: #000; }
         input:focus, select:focus { 
             outline: none; 
-            border-color: #9CA3AF; 
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08); 
+            border-color: #000; 
+            box-shadow: none !important; 
         }
         .locked-input { 
             background: var(--locked) !important; 
             color: var(--muted) !important; 
             cursor: not-allowed; 
             pointer-events: none; 
+            border: 1px solid var(--border) !important;
         }
         .summary { display: flex; gap: 20px; flex-wrap: wrap; }
         .preview-container { 
@@ -113,15 +117,18 @@
             text-align: center; 
             padding: 12px; 
             background: var(--bg); 
-            border-radius: 7px; 
+            border-radius: 6px; 
+            border: 1px solid var(--border);
+            box-shadow: none;
         }
         .preview-container p { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
-        .preview-container img { max-width: 110px; border-radius: 5px; }
+        .preview-container img { max-width: 110px; border-radius: 4px; border: 1px solid #000; box-shadow: none; }
         #apiLoading, #loading { 
             display: none; 
             text-align: center; 
-            border-radius: 7px; 
+            border-radius: 6px; 
             font-weight: 500; 
+            box-shadow: none;
         }
         #apiLoading { 
             font-size: 13px; 
@@ -129,6 +136,7 @@
             color: #0c5460; 
             background: #d1ecf1; 
             padding: 10px; 
+            border: 1px solid #bee5eb;
         }
         #loading { 
             margin-top: 18px; 
@@ -136,19 +144,21 @@
             background: #fff3cd; 
             padding: 14px; 
             font-size: 15px; 
+            border: 1px solid #ffeeba;
         }
         .btn-submit { 
             background: var(--accent); 
             color: #fff; 
-            border: none; 
+            border: 1px solid #000; 
             cursor: pointer; 
             width: 100%; 
             font-size: 16px; 
             margin-top: 26px; 
             padding: 15px; 
-            border-radius: 7px; 
+            border-radius: 6px; 
             font-weight: 700; 
-            transition: all .2s; 
+            box-shadow: none !important;
+            transition: background .2s; 
         }
         .btn-submit:hover { background: var(--accent-hover); }
         @media (max-width: 600px) { 
