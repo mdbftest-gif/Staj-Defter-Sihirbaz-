@@ -25,7 +25,6 @@
             padding: 40px 20px; 
             line-height: 1.6; 
         }
-        /* İME sayfasındaki kart: Dışta siyah sert çerçeve ve gölge yok, sadece üst lacivert çizgi */
         .shell { 
             max-width: 820px; 
             margin: 0 auto; 
@@ -74,7 +73,6 @@
             font-size: 13.5px; 
         }
         .hint { font-weight: 400; color: var(--muted); }
-        /* İME'deki orijinal soft kenarlık ve sıfır gölge */
         input[type=text], input[type=number], input[type=date], select { 
             width: 100%; 
             padding: 11px 14px; 
@@ -627,7 +625,8 @@
 
                 try {
                     const formData = new FormData(this);
-                    const n8nWebhookURL = 'https://scurvy-chosen-circus.ngrok-free.dev/webhook/defter_olustur';
+                    // Doğrudan yerel n8n webhook yolu
+                    const n8nWebhookURL = '/webhook/defter_olustur';
 
                     const response = await fetch(n8nWebhookURL, {
                         method: 'POST',
