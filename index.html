@@ -3,192 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOSTÜ Staj Defteri Otomasyonu</title>
+    <title>KOSTÜ - Mesleki Uygulama (Staj) Defter Raporu</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --kostu-lacivert: #0A2240;
-            --kostu-turuncu: #E85D04;
-            --kostu-turuncu-hover: #CC5203;
-            --bg-color: #F4F7F9;
-            --card-bg: #FFFFFF;
-            --text-main: #333333;
-            --text-muted: #6B7280;
-            --border-color: #D1D5DB;
-            --input-focus-ring: rgba(232, 93, 4, 0.15);
-            --locked-bg: #F3F4F6;
+        :root { 
+            --navy: #0A2240; 
+            --accent: #E85D04; 
+            --accent-hover: #CC5203; 
+            --bg: #F4F7F9; 
+            --text: #333; 
+            --muted: #6B7280; 
+            --border: #D1D5DB; 
+            --locked: #F3F4F6; 
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); padding: 40px 20px; margin: 0; line-height: 1.6; }
-        .container { max-width: 850px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 6px solid var(--kostu-lacivert); }
-        .header-section { text-align: center; margin-bottom: 30px; }
-        .header-section h2 { color: var(--kostu-lacivert); font-weight: 700; font-size: 24px; margin: 0 0 10px 0; }
-        .header-section p { color: var(--text-muted); font-size: 14px; margin: 0; }
-        h3 { color: var(--kostu-lacivert); font-size: 18px; margin-top: 35px; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--border-color); position: relative; }
-        h3::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 60px; height: 2px; background-color: var(--kostu-turuncu); }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 40px 20px; 
+            line-height: 1.6; 
+        }
+        .shell { 
+            max-width: 820px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 36px 40px 40px; 
+            border-radius: 10px; 
+            border-top: 5px solid var(--navy); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .app-header { 
+            text-align: center; 
+            margin-bottom: 24px; 
+        }
+        .app-header h1 { 
+            color: var(--navy); 
+            font-size: 20px; 
+            font-weight: 700; 
+            margin: 0 0 6px 0; 
+            letter-spacing: -0.01em; 
+        }
+        .app-header .product-title { 
+            color: #4B5563; 
+            font-size: 16.5px; 
+            font-weight: 600; 
+            margin: 0; 
+            letter-spacing: -0.01em; 
+        }
+        .step { margin-top: 30px; }
+        .step-title { 
+            color: var(--navy); 
+            font-size: 17px; 
+            font-weight: 700; 
+            margin: 0 0 18px; 
+            padding-bottom: 8px; 
+            border-bottom: 2px solid var(--border); 
+            position: relative; 
+        }
         .form-row { display: flex; gap: 20px; flex-wrap: wrap; }
-        .form-group { margin-bottom: 20px; flex: 1; min-width: 250px; }
+        .form-group { margin-bottom: 18px; flex: 1; min-width: 220px; }
         .form-group.full-width { flex: 100%; }
-        label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--kostu-lacivert); font-size: 14px; }
-        input[type="text"], input[type="number"], input[type="date"], input[type="time"], select { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 15px; color: var(--text-main); transition: all 0.3s ease; font-family: 'Inter', sans-serif; background-color: #fff; }
-        input[type="file"] { width: 100%; padding: 10px; border: 1px dashed var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 14px; color: var(--text-muted); background-color: #FAFAFA; cursor: pointer; transition: all 0.3s ease; }
-        input[type="file"]:hover { border-color: var(--kostu-turuncu); }
-        input:focus, select:focus { outline: none; border-color: var(--kostu-turuncu); box-shadow: 0 0 0 4px var(--input-focus-ring); }
-        .locked-input { background-color: var(--locked-bg) !important; color: var(--text-muted) !important; cursor: not-allowed; pointer-events: none; border-color: var(--border-color) !important; }
-        .btn-submit { background-color: var(--kostu-turuncu); color: white; border: none; cursor: pointer; width: 100%; font-size: 16px; margin-top: 30px; padding: 16px; border-radius: 8px; font-weight: 700; letter-spacing: 0.5px; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(232, 93, 4, 0.2); }
-        .btn-submit:hover { background-color: var(--kostu-turuncu-hover); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(232, 93, 4, 0.3); }
-        .btn-submit:active { transform: translateY(0); }
-        #loading, #apiLoading { display: none; text-align: center; border-radius: 8px; font-weight: 500; }
-        #apiLoading { font-size: 13px; margin-top: 5px; margin-bottom: 20px; color: #0c5460; background-color: #d1ecf1; padding: 10px; border: 1px solid #bee5eb; }
-        #loading { margin-top: 20px; color: #856404; background-color: #fff3cd; padding: 15px; border: 1px solid #ffeeba; font-size: 15px; }
-        .preview-container { display: none; margin-top: 15px; text-align: center; animation: fadeIn 0.3s ease-in-out; padding: 15px; background-color: var(--bg-color); border-radius: 8px; border: 1px solid var(--border-color); }
-        .preview-container p { margin: 0 0 10px 0; font-size: 13px; color: var(--text-muted); font-weight: 500; }
-        .preview-container img { max-width: 120px; border-radius: 6px; border: 2px solid var(--border-color); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 600px) { .container { padding: 25px 15px; } .form-row { flex-direction: column; gap: 0; } body { padding: 15px; } }
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 6px; 
+            color: var(--navy); 
+            font-size: 13.5px; 
+        }
+        .hint { font-weight: 400; color: var(--muted); }
+        input[type=text], input[type=number], input[type=date], select { 
+            width: 100%; 
+            padding: 11px 14px; 
+            border: 1px solid var(--border); 
+            border-radius: 7px; 
+            font-size: 14.5px; 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            background: #fff; 
+            transition: all .2s; 
+        }
+        input[type=file] { 
+            width: 100%; 
+            padding: 9px; 
+            border: 1px dashed var(--border); 
+            border-radius: 7px; 
+            font-size: 14px; 
+            color: var(--muted); 
+            background: #FAFAFA; 
+            cursor: pointer; 
+        }
+        input[type=file]:hover { border-color: #9CA3AF; }
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: #9CA3AF; 
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08); 
+        }
+        .locked-input { 
+            background: var(--locked) !important; 
+            color: var(--muted) !important; 
+            cursor: not-allowed; 
+            pointer-events: none; 
+        }
+        .summary { display: flex; gap: 20px; flex-wrap: wrap; }
+        .preview-container { 
+            display: none; 
+            margin-top: 12px; 
+            text-align: center; 
+            padding: 12px; 
+            background: var(--bg); 
+            border-radius: 7px; 
+        }
+        .preview-container p { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+        .preview-container img { max-width: 110px; border-radius: 5px; }
+        #apiLoading, #loading { 
+            display: none; 
+            text-align: center; 
+            border-radius: 7px; 
+            font-weight: 500; 
+        }
+        #apiLoading { 
+            font-size: 13px; 
+            margin: 0 0 16px; 
+            color: #0c5460; 
+            background: #d1ecf1; 
+            padding: 10px; 
+        }
+        #loading { 
+            margin-top: 18px; 
+            color: #856404; 
+            background: #fff3cd; 
+            padding: 14px; 
+            font-size: 15px; 
+        }
+        .btn-submit { 
+            background: var(--accent); 
+            color: #fff; 
+            border: none; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px; 
+            margin-top: 26px; 
+            padding: 15px; 
+            border-radius: 7px; 
+            font-weight: 700; 
+            transition: all .2s; 
+        }
+        .btn-submit:hover { background: var(--accent-hover); }
+        @media (max-width: 600px) { 
+            .shell { padding: 24px 16px; } 
+            .form-row, .summary { flex-direction: column; gap: 0; } 
+            body { padding: 12px; } 
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header-section">
-            <h2>Kocaeli Sağlık ve Teknoloji Üniversitesi</h2>
-            <p>Mesleki Uygulama (Staj) Defteri Otomasyon Sistemi</p>
+    <div class="shell">
+        <div class="app-header">
+            <h1>Kocaeli Sağlık ve Teknoloji Üniversitesi</h1>
+            <p class="product-title">Mesleki Uygulama (Staj) Defter Raporu</p>
         </div>
-        <form id="stajFormu" enctype="multipart/form-data">
-            <h3>Öğrenci Bilgileri</h3>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>İsim Soyisim</label>
-                    <input type="text" id="adSoyad" name="adSoyad" value="" required>
+
+        <div class="app-body">
+            <form id="stajFormu" enctype="multipart/form-data">
+                <div class="step">
+                    <h3 class="step-title">Öğrenci Bilgileri</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>İsim Soyisim</label>
+                            <input type="text" id="adSoyad" name="adSoyad" minlength="3" placeholder="Örn: Ahmet Yılmaz" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Öğrenci No</label>
+                            <input type="text" id="ogrenciNo" name="ogrenciNo" placeholder="Örn: 2305XXXXX" maxlength="9" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Okuduğu Bölüm <span class="hint">(otomatik algılanır)</span></label>
+                            <input type="text" id="bolum" name="bolum" class="locked-input" readonly placeholder="Öğrenci no girildiğinde doldurulur">
+                        </div>
+                        <div class="form-group">
+                            <label>Kaçıncı Sınıf</label>
+                            <select id="sinif" name="sinif" required>
+                                <option value="" disabled selected>Sınıf Seçiniz</option>
+                                <option value="1. Sınıf">1. Sınıf</option>
+                                <option value="2. Sınıf">2. Sınıf</option>
+                                <option value="3. Sınıf">3. Sınıf</option>
+                                <option value="4. Sınıf">4. Sınıf</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Vesikalık Fotoğraf <span class="hint">(PNG veya JPEG)</span></label>
+                        <input type="file" id="resim" name="resim" accept="image/png, image/jpeg" required>
+                        <div id="previewContainer" class="preview-container">
+                            <p>Seçilen Fotoğraf Önizlemesi</p>
+                            <img id="resimOnizleme" src="" alt="Vesikalık Önizleme">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Öğrenci No</label>
-                    <input type="text" id="ogrenciNo" name="ogrenciNo" placeholder="Örn: 2305XXXXX" maxlength="9" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+
+                <div class="step">
+                    <h3 class="step-title">Kurum Bilgileri</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Kurum Adı</label>
+                            <input type="text" id="kurumAdi" name="kurumAdi" minlength="3" placeholder="Staj yapılacak kurumun tam adı" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kurum Bölümü / Departman</label>
+                            <input type="text" id="kurumBolumu" name="kurumBolumu" minlength="3" placeholder="Örn: Yazılım Geliştirme, Bilgi İşlem" required>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Okuduğu Bölüm (Otomatik Algılanır)</label>
-                    <input type="text" id="bolum" name="bolum" class="locked-input" readonly placeholder="Öğrenci no girildiğinde doldurulur">
+
+                <div class="step">
+                    <h3 class="step-title">Çalışma Takvimi</h3>
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Staj Başlangıç Tarihi</label>
+                                <input type="date" id="baslangicTarihi" name="baslangicTarihi" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Staj Bitiş Tarihi</label>
+                                <input type="date" id="bitisTarihi" name="bitisTarihi" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Haftalık Çalışma Günü</label>
+                                <select id="calismaGunu" name="calismaGunu">
+                                    <option value="5">5 Gün (Pazartesi - Cuma)</option>
+                                    <option value="6">6 Gün (Pazartesi - Cumartesi)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Hafta İçi Mesai Başlangıç</label>
+                                <select id="baslamaSaati" name="baslamaSaati" class="time-picker-select" required>
+                                    <option value="" disabled selected>Saat Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hafta İçi Mesai Bitiş</label>
+                                <select id="bitisSaati" name="bitisSaati" class="time-picker-select" required>
+                                    <option value="" disabled selected>Saat Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hafta İçi Mola <span class="hint">(dakika)</span></label>
+                                <input type="number" id="molaSuresi" name="molaSuresi" value="60" min="0" max="480" step="5" placeholder="Mola yoksa 0" required>
+                            </div>
+                        </div>
+                        <div class="form-row" id="cumartesiSaatleri" style="display: none;">
+                            <div class="form-group">
+                                <label>Cumartesi Mesai Başlangıç</label>
+                                <select id="cBaslamaSaati" name="cBaslamaSaati" class="time-picker-select">
+                                    <option value="" disabled selected>Saat Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cumartesi Mesai Bitiş</label>
+                                <select id="cBitisSaati" name="cBitisSaati" class="time-picker-select">
+                                    <option value="" disabled selected>Saat Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Cumartesi Mola <span class="hint">(dakika)</span></label>
+                                <input type="number" id="cMolaSuresi" name="cMolaSuresi" min="0" max="480" step="5" placeholder="Boşsa hafta içi molası">
+                            </div>
+                        </div>
+                        <input type="hidden" id="tatiller" name="tatiller" value="">
+                        <!-- Word şablonuna gidecek yuvarlanmış toplam saat -->
+                        <input type="hidden" id="toplamSaat" name="toplamSaat" value="">
+                    </div>
+                    <div id="apiLoading" style="margin-top:14px;">📅 Resmi tatiller kontrol ediliyor ve iş günleri hesaplanıyor...</div>
+                    <div id="tatilUyari" style="display:none; font-size:12.5px; color:#856404; background:#fff3cd; border:1px solid #ffeeba; border-radius:6px; padding:9px; margin-top:14px;">⚠️ Resmi tatil listesi alınamadı; iş günü sayısı tatiller düşülmeden hesaplandı.</div>
+                    <div class="summary">
+                        <div class="form-group">
+                            <label>Hesaplanan Hafta Sayısı</label>
+                            <input type="number" id="haftaSayisi" name="haftaSayisi" class="locked-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Hesaplanan İş Günü Sayısı <span class="hint">(maksimum 50 iş günü)</span></label>
+                            <input type="number" id="gunSayisi" name="gunSayisi" class="locked-input" readonly>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Kaçıncı Sınıf</label>
-                    <select id="sinif" name="sinif" required>
-                        <option value="" disabled selected>Sınıf Seçiniz</option>
-                        <option value="1. Sınıf">1. Sınıf</option>
-                        <option value="2. Sınıf">2. Sınıf</option>
-                        <option value="3. Sınıf">3. Sınıf</option>
-                        <option value="4. Sınıf">4. Sınıf</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group full-width">
-                <label>Vesikalık Fotoğraf</label>
-                <input type="file" id="resim" name="resim" accept="image/png, image/jpeg" required>
-                <div id="previewContainer" class="preview-container">
-                    <p>Seçilen Fotoğraf Önizlemesi</p>
-                    <img id="resimOnizleme" src="" alt="Vesikalık Önizleme">
-                </div>
-            </div>
-            <h3>Kurum ve Staj Bilgileri</h3>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Kurum Adı</label>
-                    <input type="text" id="kurumAdi" name="kurumAdi" placeholder="Staj yapılacak kurumun tam adı" required>
-                </div>
-                <div class="form-group">
-                    <label>Kurum Bölümü / Departman</label>
-                    <input type="text" id="kurumBolumu" name="kurumBolumu" placeholder="Örn: Yazılım Geliştirme, Bilgi İşlem" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Staj Başlangıç Tarihi</label>
-                    <input type="date" id="baslangicTarihi" name="baslangicTarihi" required>
-                </div>
-                <div class="form-group">
-                    <label>Staj Bitiş Tarihi</label>
-                    <input type="date" id="bitisTarihi" name="bitisTarihi" required>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Haftalık Çalışma Günü</label>
-                    <select id="calismaGunu" name="calismaGunu">
-                        <option value="5">5 Gün (Pazartesi - Cuma)</option>
-                        <option value="6">6 Gün (Pazartesi - Cumartesi)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Hafta İçi Mesai Başlangıç</label>
-                    <input type="time" id="baslamaSaati" name="baslamaSaati" required>
-                </div>
-                <div class="form-group">
-                    <label>Hafta İçi Mesai Bitiş</label>
-                    <input type="time" id="bitisSaati" name="bitisSaati" required>
-                </div>
-            </div>
-            <div class="form-row" id="cumartesiSaatleri" style="display: none;">
-                <div class="form-group">
-                    <label>Cumartesi Mesai Başlangıç</label>
-                    <input type="time" id="cBaslamaSaati" name="cBaslamaSaati">
-                </div>
-                <div class="form-group">
-                    <label>Cumartesi Mesai Bitiş</label>
-                    <input type="time" id="cBitisSaati" name="cBitisSaati">
-                </div>
-            </div>
-            <div id="apiLoading">📅 Resmi tatiller kontrol ediliyor ve iş günleri hesaplanıyor...</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Hesaplanan Hafta Sayısı</label>
-                    <input type="number" id="haftaSayisi" name="haftaSayisi" class="locked-input" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Hesaplanan İş Günü Sayısı (Resmi Tatiller Çıkartılmıştır)</label>
-                    <input type="number" id="gunSayisi" name="gunSayisi" class="locked-input" readonly>
-                </div>
-            </div>
-            <button type="submit" class="btn-submit" id="submitBtn">Staj Defterini Oluştur ve İndir</button>
-            <div id="loading">⏳ Belgeniz sunucuda işleniyor, lütfen bekleyin...</div>
-        </form>
+
+                <button type="submit" class="btn-submit" id="submitBtn">Staj Defter Raporunu Oluştur ve İndir</button>
+                <div id="loading">⏳ Belgeniz sunucuda işleniyor, lütfen bekleyin...</div>
+            </form>
+        </div>
     </div>
+
     <script>
-        document.getElementById('resim').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const previewContainer = document.getElementById('previewContainer');
-            const previewImage = document.getElementById('resimOnizleme');
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'block'; 
+        function saatSecenekleriniDoldur() {
+            const timeSelectIds = ['baslamaSaati', 'bitisSaati', 'cBaslamaSaati', 'cBitisSaati'];
+            timeSelectIds.forEach(id => {
+                const select = document.getElementById(id);
+                if (!select) return;
+
+                select.innerHTML = '<option value="" disabled selected>Saat Seçiniz</option>';
+
+                for (let saat = 0; saat < 24; saat++) {
+                    for (let dk = 0; dk < 60; dk += 30) {
+                        const sStr = String(saat).padStart(2, '0');
+                        const dkStr = String(dk).padStart(2, '0');
+                        const zaman = `${sStr}:${dkStr}`;
+                        const option = document.createElement('option');
+                        option.value = zaman;
+                        option.textContent = zaman;
+                        select.appendChild(option);
+                    }
                 }
-                reader.readAsDataURL(file);
-            } else {
-                previewContainer.style.display = 'none';
-                previewImage.src = '';
-            }
-        });
-        document.getElementById('ogrenciNo').addEventListener('input', function (e) {
-            const ogrenciNo = e.target.value;
-            const bolumInput = document.getElementById('bolum');
-            if (ogrenciNo.length >= 6) {
-                const bolumKodu = ogrenciNo.charAt(5);
-                if (bolumKodu === '1') {
-                    bolumInput.value = "Bilgisayar Mühendisliği";
-                } else if (bolumKodu === '2') {
-                    bolumInput.value = "Yazılım Mühendisliği";
+                const opt24 = document.createElement('option');
+                opt24.value = "24:00";
+                opt24.textContent = "24:00";
+                select.appendChild(opt24);
+            });
+
+            const bas = document.getElementById('baslamaSaati');
+            const bit = document.getElementById('bitisSaati');
+            if (bas) bas.value = "08:00";
+            if (bit) bit.value = "17:00";
+        }
+
+        function saatDakikayaCevir(saatStr) {
+            if (!saatStr) return 0;
+            const parcalar = saatStr.split(':').map(Number);
+            return parcalar[0] * 60 + parcalar[1];
+        }
+
+        // 36.6666 gibi ondalıklı saatleri en yakın tam sayıya yuvarlar
+        function yuvarlanmisSaatHesapla(dakika) {
+            if (!dakika || isNaN(dakika)) return 0;
+            return Math.round(dakika / 60);
+        }
+
+        const resimEl = document.getElementById('resim');
+        if (resimEl) {
+            resimEl.addEventListener('change', function(e) {
+                const file = e.target.files && e.target.files[0];
+                const previewContainer = document.getElementById('previewContainer');
+                const previewImage = document.getElementById('resimOnizleme');
+
+                if (file && previewContainer && previewImage) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        previewImage.src = evt.target.result;
+                        previewContainer.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else if (previewContainer) {
+                    previewContainer.style.display = 'none';
+                    if (previewImage) previewImage.src = '';
+                }
+            });
+        }
+
+        const ogrenciNoEl = document.getElementById('ogrenciNo');
+        if (ogrenciNoEl) {
+            function bolumAyarla(val) {
+                const temizNo = val.replace(/[^0-9]/g, '');
+                const bolumInput = document.getElementById('bolum');
+                if (!bolumInput) return;
+
+                if (temizNo.length >= 6) {
+                    const bolumKodu = temizNo.substring(4, 6);
+                    const tekHane = temizNo.charAt(5);
+
+                    if (bolumKodu === '01' || tekHane === '1') {
+                        bolumInput.value = "Bilgisayar Mühendisliği";
+                    } else if (bolumKodu === '02' || tekHane === '2') {
+                        bolumInput.value = "Yazılım Mühendisliği";
+                    } else {
+                        bolumInput.value = "";
+                    }
                 } else {
                     bolumInput.value = "";
                 }
-            } else {
-                bolumInput.value = "";
             }
-        });
+
+            ogrenciNoEl.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                bolumAyarla(this.value);
+            });
+            ogrenciNoEl.addEventListener('change', function() { bolumAyarla(this.value); });
+            ogrenciNoEl.addEventListener('paste', function() { setTimeout(() => bolumAyarla(ogrenciNoEl.value), 50); });
+        }
+
         const resmiTatillerCache = new Set();
         const cekilenYillar = new Set();
+
         async function tatilleriGetir(yil) {
             if (cekilenYillar.has(yil)) return;
             try {
@@ -202,121 +413,249 @@
                 console.error("API bağlantı hatası:", error);
             }
         }
+
+        function yerelTarih(str) {
+            const p = str.split('-').map(Number);
+            return new Date(p[0], p[1] - 1, p[2]);
+        }
+
         function formatTarih(tarihObj) {
             const yil = tarihObj.getFullYear();
             const ay = String(tarihObj.getMonth() + 1).padStart(2, '0');
             const gun = String(tarihObj.getDate()).padStart(2, '0');
             return `${yil}-${ay}-${gun}`;
         }
+
         async function tarihleriHesapla() {
-            const baslangic = document.getElementById('baslangicTarihi').value;
-            const bitis = document.getElementById('bitisTarihi').value;
-            const calismaGunu = parseInt(document.getElementById('calismaGunu').value);
+            const baslangic = document.getElementById('baslangicTarihi')?.value;
+            const bitis = document.getElementById('bitisTarihi')?.value;
+            const calismaGunu = parseInt(document.getElementById('calismaGunu')?.value || "5");
             const apiLoading = document.getElementById('apiLoading');
+
             if (baslangic && bitis) {
-                const basTarih = new Date(baslangic);
-                const bitTarih = new Date(bitis);
+                const basTarih = yerelTarih(baslangic);
+                const bitTarih = yerelTarih(bitis);
                 const basYil = basTarih.getFullYear();
                 const bitYil = bitTarih.getFullYear();
+
                 if (basYil < 2000 || bitYil < 2000) return;
+
                 if (bitTarih < basTarih) {
                     alert("Bitiş tarihi başlangıç tarihinden önce olamaz!");
                     document.getElementById('bitisTarihi').value = "";
                     return;
                 }
-                apiLoading.style.display = 'block';
-                await tatilleriGetir(basYil);
-                if (basYil !== bitYil) await tatilleriGetir(bitYil);
+
+                if (apiLoading) apiLoading.style.display = 'block';
+
+                for (let y = basYil; y <= bitYil; y++) await tatilleriGetir(y);
+
+                let tatilApiHata = false;
+                for (let y = basYil; y <= bitYil; y++) { 
+                    if (!cekilenYillar.has(y)) tatilApiHata = true; 
+                }
+
+                const tatilUyari = document.getElementById('tatilUyari');
+                if (tatilUyari) tatilUyari.style.display = tatilApiHata ? 'block' : 'none';
+
                 let isGunuSayisi = 0;
+                let haftaIciGunSayisi = 0;
+                let cumartesiGunSayisi = 0;
+                const haftaAnahtarlari = new Set();
+                const aralikTatilleri = [];
                 let mevcutTarih = new Date(basTarih);
+
                 while (mevcutTarih <= bitTarih) {
                     const haftaninGunu = mevcutTarih.getDay();
                     const tarihString = formatTarih(mevcutTarih);
                     const buGunTatil = resmiTatillerCache.has(tarihString);
+
+                    if (buGunTatil) aralikTatilleri.push(tarihString);
+
+                    if (haftaninGunu !== 0) {
+                        const pzt = new Date(mevcutTarih);
+                        pzt.setDate(pzt.getDate() - (haftaninGunu - 1));
+                        haftaAnahtarlari.add(formatTarih(pzt));
+                    }
+
                     if (!buGunTatil) {
                         if (calismaGunu === 5 && haftaninGunu !== 0 && haftaninGunu !== 6) {
                             isGunuSayisi++;
+                            haftaIciGunSayisi++;
                         } else if (calismaGunu === 6 && haftaninGunu !== 0) {
                             isGunuSayisi++;
+                            if (haftaninGunu === 6) {
+                                cumartesiGunSayisi++;
+                            } else {
+                                haftaIciGunSayisi++;
+                            }
                         }
                     }
                     mevcutTarih.setDate(mevcutTarih.getDate() + 1);
                 }
-                const haftaFarki = Math.ceil(isGunuSayisi / calismaGunu);
-                document.getElementById('gunSayisi').value = isGunuSayisi;
-                document.getElementById('haftaSayisi').value = haftaFarki;
-                apiLoading.style.display = 'none';
-            }
-        }
-        document.getElementById('calismaGunu').addEventListener('change', function(e) {
-            const isAltigun = e.target.value === '6';
-            const cSaatDiv = document.getElementById('cumartesiSaatleri');
-            const cBas = document.getElementById('cBaslamaSaati');
-            const cBit = document.getElementById('cBitisSaati');
-            if(isAltigun) {
-                cSaatDiv.style.display = 'flex';
-                cBas.required = true;
-                cBit.required = true;
-            } else {
-                cSaatDiv.style.display = 'none';
-                cBas.required = false;
-                cBit.required = false;
-                cBas.value = '';
-                cBit.value = '';
-            }
-            tarihleriHesapla();
-        });
-        document.getElementById('baslangicTarihi').addEventListener('change', tarihleriHesapla);
-        document.getElementById('bitisTarihi').addEventListener('change', tarihleriHesapla);
-        document.getElementById('stajFormu').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const baslamaSaati = document.getElementById('baslamaSaati').value;
-            const bitisSaati = document.getElementById('bitisSaati').value;
-            if (baslamaSaati >= bitisSaati) {
-                alert("Hafta içi mesai bitiş saati, başlama saatinden daha erken veya aynı olamaz!\nLütfen öğleden sonraki saatler için 24 saatlik dilimi kullanın.");
-                return;
-            }
-            const calismaGunu = document.getElementById('calismaGunu').value;
-            if (calismaGunu === '6') {
-                const cBaslamaSaati = document.getElementById('cBaslamaSaati').value;
-                const cBitisSaati = document.getElementById('cBitisSaati').value;
-                if (cBaslamaSaati >= cBitisSaati) {
-                    alert("Cumartesi mesai bitiş saati, başlama saatinden daha erken veya aynı olamaz!");
+
+                if (isGunuSayisi > 50) {
+                    alert(`Hata: Hesaplanan süre ${isGunuSayisi} iş günüdür. Bir staj dönemi en fazla 50 iş günü olabilir!`);
+                    document.getElementById('bitisTarihi').value = "";
+                    document.getElementById('gunSayisi').value = "";
+                    document.getElementById('haftaSayisi').value = "";
+                    if (apiLoading) apiLoading.style.display = 'none';
                     return;
                 }
-            }
-            const submitBtn = document.getElementById('submitBtn');
-            const loading = document.getElementById('loading');
-            submitBtn.style.display = 'none';
-            loading.style.display = 'block';
-            try {
-                const formData = new FormData(this);
-                const n8nWebhookURL = 'https://scurvy-chosen-circus.ngrok-free.dev/webhook/defter_olustur'; 
-                const response = await fetch(n8nWebhookURL, {
-                    method: 'POST',
-                    body: formData
-                });
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    const ogrenciAdi = document.getElementById('adSoyad').value.replace(/ /g, '_');
-                    a.download = ogrenciAdi + '_Staj_Defteri.docx';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                } else {
-                    alert("Sunucu hatası: Lütfen n8n iş akışınızı kontrol edin.");
+
+                // GÜNLÜK VE TOPLAM ÇALIŞMA SAATİ YUVARLAMA
+                const haftaIciBas = saatDakikayaCevir(document.getElementById('baslamaSaati').value || "08:00");
+                const haftaIciBit = saatDakikayaCevir(document.getElementById('bitisSaati').value || "17:00");
+                const haftaIciMola = parseFloat(document.getElementById('molaSuresi').value || "60");
+                const gunlukHaftaIciNetDk = Math.max(0, (haftaIciBit - haftaIciBas) - haftaIciMola);
+
+                let toplamCalismaDk = haftaIciGunSayisi * gunlukHaftaIciNetDk;
+
+                if (calismaGunu === 6) {
+                    const cBas = saatDakikayaCevir(document.getElementById('cBaslamaSaati').value || "08:00");
+                    const cBit = saatDakikayaCevir(document.getElementById('cBitisSaati').value || "13:00");
+                    const cMola = parseFloat(document.getElementById('cMolaSuresi').value || "0");
+                    const gunlukCumartesiNetDk = Math.max(0, (cBit - cBas) - cMola);
+                    toplamCalismaDk += (cumartesiGunSayisi * gunlukCumartesiNetDk);
                 }
-            } catch (error) {
-                console.error('Hata:', error);
-                alert("Bağlantı hatası oluştu. n8n sunucusuna erişilemiyor.");
-            } finally {
-                submitBtn.style.display = 'block';
-                loading.style.display = 'none';
+
+                const yuvarlanmisToplamSaat = yuvarlanmisSaatHesapla(toplamCalismaDk);
+                document.getElementById('toplamSaat').value = yuvarlanmisToplamSaat;
+
+                document.getElementById('tatiller').value = aralikTatilleri.join(',');
+                document.getElementById('gunSayisi').value = isGunuSayisi;
+                document.getElementById('haftaSayisi').value = haftaAnahtarlari.size;
+                if (apiLoading) apiLoading.style.display = 'none';
             }
-        });
+        }
+
+        const calismaGunuEl = document.getElementById('calismaGunu');
+        if (calismaGunuEl) {
+            calismaGunuEl.addEventListener('change', function(e) {
+                const isAltigun = e.target.value === '6';
+                const cSaatDiv = document.getElementById('cumartesiSaatleri');
+                const cBas = document.getElementById('cBaslamaSaati');
+                const cBit = document.getElementById('cBitisSaati');
+                const cMola = document.getElementById('cMolaSuresi');
+
+                if (isAltigun) {
+                    if (cSaatDiv) cSaatDiv.style.display = 'flex';
+                    if (cBas) { cBas.required = true; if (!cBas.value) cBas.value = "08:00"; }
+                    if (cBit) { cBit.required = true; if (!cBit.value) cBit.value = "13:00"; }
+                } else {
+                    if (cSaatDiv) cSaatDiv.style.display = 'none';
+                    if (cBas) { cBas.required = false; cBas.value = ''; }
+                    if (cBit) { cBit.required = false; cBit.value = ''; }
+                    if (cMola) cMola.value = '';
+                }
+                tarihleriHesapla();
+            });
+        }
+
+        document.getElementById('baslangicTarihi')?.addEventListener('change', tarihleriHesapla);
+        document.getElementById('bitisTarihi')?.addEventListener('change', tarihleriHesapla);
+        document.getElementById('baslamaSaati')?.addEventListener('change', tarihleriHesapla);
+        document.getElementById('bitisSaati')?.addEventListener('change', tarihleriHesapla);
+        document.getElementById('molaSuresi')?.addEventListener('change', tarihleriHesapla);
+
+        const formEl = document.getElementById('stajFormu');
+        if (formEl) {
+            formEl.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const baslamaSaati = document.getElementById('baslamaSaati').value;
+                const bitisSaati = document.getElementById('bitisSaati').value;
+
+                const baslamaDk = saatDakikayaCevir(baslamaSaati);
+                const bitisDk = saatDakikayaCevir(bitisSaati);
+
+                if (baslamaDk >= bitisDk) {
+                    alert("Hafta içi mesai bitiş saati, başlama saatinden daha erken veya aynı olamaz!");
+                    return;
+                }
+
+                const molaSuresi = parseFloat(document.getElementById('molaSuresi').value);
+                const mesaiDk = bitisDk - baslamaDk;
+
+                if (isNaN(molaSuresi) || molaSuresi < 0 || molaSuresi >= mesaiDk) {
+                    alert("Hafta içi mola süresi 0 ile mesai süresi arasında olmalıdır!");
+                    return;
+                }
+
+                if (!document.getElementById('bolum').value || document.getElementById('ogrenciNo').value.length !== 9) {
+                    alert("Öğrenci numarası 9 haneli olmalı ve bölüm otomatik algılanmalıdır!");
+                    return;
+                }
+
+                const gunSayisi = parseInt(document.getElementById('gunSayisi').value || "0");
+                if (gunSayisi < 1 || gunSayisi > 50) {
+                    alert("Staj süresi en fazla 50 iş günü olabilir. Lütfen tarihleri kontrol ediniz.");
+                    return;
+                }
+
+                const calismaGunu = document.getElementById('calismaGunu').value;
+                if (calismaGunu === '6') {
+                    const cBaslamaSaati = document.getElementById('cBaslamaSaati').value;
+                    const cBitisSaati = document.getElementById('cBitisSaati').value;
+
+                    const cBaslamaDk = saatDakikayaCevir(cBaslamaSaati);
+                    const cBitisDk = saatDakikayaCevir(cBitisSaati);
+
+                    if (cBaslamaDk >= cBitisDk) {
+                        alert("Cumartesi mesai bitiş saati, başlama saatinden daha erken veya aynı olamaz!");
+                        return;
+                    }
+
+                    const cMolaStr = document.getElementById('cMolaSuresi').value;
+                    if (cMolaStr !== '') {
+                        const cMola = parseFloat(cMolaStr);
+                        const cMesaiDk = cBitisDk - cBaslamaDk;
+
+                        if (isNaN(cMola) || cMola < 0 || cMola >= cMesaiDk) {
+                            alert("Cumartesi mola süresi 0 ile Cumartesi mesai süresi arasında olmalıdır!");
+                            return;
+                        }
+                    }
+                }
+
+                const submitBtn = document.getElementById('submitBtn');
+                const loading = document.getElementById('loading');
+
+                submitBtn.style.display = 'none';
+                loading.style.display = 'block';
+
+                try {
+                    const formData = new FormData(this);
+                    const n8nWebhookURL = 'https://scurvy-chosen-circus.ngrok-free.dev/webhook/defter_olustur';
+
+                    const response = await fetch(n8nWebhookURL, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        const ogrenciAdi = document.getElementById('adSoyad').value.trim().replace(/\s+/g, '_');
+                        a.download = ogrenciAdi + '_Staj_Defter_Raporu.docx';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    } else {
+                        alert("Sunucu hatası: Lütfen n8n iş akışınızı kontrol edin.");
+                    }
+                } catch (error) {
+                    console.error('Hata:', error);
+                    alert("Bağlantı hatası oluştu. n8n sunucusuna erişilemiyor.");
+                } finally {
+                    submitBtn.style.display = 'block';
+                    loading.style.display = 'none';
+                }
+            });
+        }
+
+        saatSecenekleriniDoldur();
     </script>
 </body>
 </html>
